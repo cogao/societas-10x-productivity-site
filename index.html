@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Societas 10X Productivity 样板间</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #586273;
+      --paper: #f3f6ff;
+      --surface: #ffffff;
+      --line: #d8dee8;
+      --green: #17a0a6;
+      --blue: #4b6cff;
+      --amber: #ffb648;
+      --red: #ff6b8a;
+      --violet: #8b5cf6;
+      --mint: #e5f6f4;
+      --module: #111827;
+      --module-soft: rgba(17, 24, 39, 0.08);
+      --shadow: 0 18px 46px rgba(17, 24, 39, 0.11);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Aptos", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 60;
+      height: 4px;
+      width: 0;
+      background: var(--blue);
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      min-height: 74px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 900;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .links a,
+    .print-button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 9px 4px;
+      color: var(--muted);
+      background: transparent;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .links a:hover,
+    .print-button:hover {
+      color: var(--ink);
+      border-color: transparent;
+      background: transparent;
+    }
+
+    main { overflow: hidden; }
+
+    section {
+      padding: 74px 0;
+      border-top: 1px solid rgba(219, 224, 214, 0.86);
+      scroll-margin-top: 82px;
+    }
+
+    #productivity { --module: #8b5cf6; --module-soft: rgba(139, 92, 246, 0.1); }
+    #metrics { --module: #4b6cff; --module-soft: rgba(75, 108, 255, 0.1); }
+    #baseline { --module: #17a0a6; --module-soft: rgba(23, 160, 166, 0.1); }
+    #landing { --module: #ff6b8a; --module-soft: rgba(255, 107, 138, 0.11); }
+
+    .hero {
+      position: relative;
+      min-height: auto;
+      display: grid;
+      align-items: center;
+      padding: 92px 0 84px;
+      border-top: 0;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--green);
+    }
+
+    h1,
+    h2,
+    h3,
+    p { margin-top: 0; }
+
+    h1 {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(34px, 6vw, 70px) 0;
+      color: var(--ink);
+      font-size: clamp(46px, 6vw, 92px);
+      line-height: 0.94;
+      letter-spacing: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .hero-title-line {
+      display: block;
+    }
+
+    .hero-title-accent {
+      color: #e65322;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(32px, 4vw, 56px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    section .section-head:not(.subhead) h2 {
+      color: var(--module);
+    }
+
+    section .section-head:not(.subhead) h2::after {
+      content: "";
+      display: block;
+      width: 72px;
+      height: 4px;
+      margin: 16px auto 0;
+      border-radius: 999px;
+      background: var(--module);
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 21px;
+      line-height: 1.22;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      color: var(--module);
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.46;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 7px;
+      padding: 0 16px;
+      color: white;
+      background: var(--ink);
+      font-weight: 760;
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .panel,
+    .card,
+    .metric,
+    .phase,
+    .ask,
+    .team-card,
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+    }
+
+    .card,
+    .panel,
+    .phase,
+    .baseline-step {
+      border-top: 4px solid var(--module);
+    }
+
+    .hero-card {
+      overflow: hidden;
+    }
+
+    .hero-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 24px;
+      color: white;
+      background: var(--ink);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: #173023;
+      background: #dcefd7;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .hero-card-body {
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .signal:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .signal strong {
+      color: var(--green);
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .signal b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .signal span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-head {
+      display: block;
+      max-width: none;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .section-head p {
+      max-width: none;
+      margin: 12px auto 4px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .section-head.subhead {
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+      text-align: left;
+    }
+
+    .section-head.subhead p {
+      margin-left: 0;
+      margin-right: 0;
+      font-size: 17px;
+    }
+
+    .title-parent,
+    .title-child {
+      display: block;
+    }
+
+    .title-parent {
+      color: var(--module);
+      font-size: 15px;
+      font-weight: 820;
+      letter-spacing: 0.08em;
+      margin-bottom: 9px;
+      text-transform: uppercase;
+    }
+
+    .title-child {
+      color: var(--ink);
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .card,
+    .panel,
+    .metric,
+    .phase,
+    .ask,
+    .team-card {
+      padding: 24px;
+    }
+
+    .card p,
+    .panel p,
+    .metric p,
+    .phase p,
+    .ask p,
+    .team-card p {
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: var(--module);
+      background: var(--module-soft);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .wip-badge {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      margin-left: 12px;
+      border: 1px solid rgba(255, 182, 72, 0.55);
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: #8a5a00;
+      background: rgba(255, 182, 72, 0.16);
+      font-size: 13px;
+      font-weight: 820;
+      letter-spacing: 0.04em;
+    }
+
+    ul {
+      margin: 12px 0 0;
+      padding-left: 19px;
+      color: var(--muted);
+    }
+
+    li { margin: 7px 0; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .org-chart {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .org-item {
+      min-height: 118px;
+      padding: 14px;
+      border: 1px solid rgba(22, 106, 77, 0.18);
+      border-radius: 8px;
+      background: rgba(220, 239, 215, 0.5);
+    }
+
+    .org-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .org-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .maturity {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .level {
+      position: relative;
+      min-height: 230px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: var(--surface);
+    }
+
+    .level::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 7px;
+      background: var(--level-color);
+    }
+
+    .level small {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .level.current {
+      outline: 2px solid rgba(255, 182, 72, 0.45);
+      background: #fffaf0;
+    }
+
+    .level.target {
+      outline: 2px solid rgba(75, 108, 255, 0.4);
+      background: #f2f5ff;
+    }
+
+    .formula {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .equation {
+      display: grid;
+      align-content: center;
+      min-height: 320px;
+      border-radius: var(--radius);
+      padding: 30px;
+      color: white;
+      background: var(--module);
+      box-shadow: var(--shadow);
+    }
+
+    .equation strong {
+      display: block;
+      margin-bottom: 18px;
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1.15;
+    }
+
+    .equation p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--green);
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .metric-table {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-collapse: collapse;
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-table th,
+    .metric-table td {
+      padding: 14px 15px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .metric-table th {
+      color: white;
+      background: var(--module);
+      font-size: 13px;
+    }
+
+    .metric-table td { color: #36423d; }
+    .metric-table td:last-child { color: var(--muted); }
+    .metric-table tr:last-child td { border-bottom: 0; }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .table-scroll .metric-table {
+      min-width: 1100px;
+      box-shadow: none;
+    }
+
+    .metric-table.compact th,
+    .metric-table.compact td {
+      padding: 12px 13px;
+      font-size: 13px;
+    }
+
+    .baseline-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .baseline-step {
+      min-height: 188px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: var(--surface);
+    }
+
+    .baseline-step b {
+      display: inline-grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      color: white;
+      background: var(--module);
+    }
+
+    .phase-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .phase {
+      position: relative;
+      overflow: hidden;
+      border-top-width: 6px;
+    }
+
+    .ask-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ask {
+      border-left: 6px solid var(--green);
+    }
+
+    .ask:nth-child(2) { border-left-color: var(--blue); }
+    .ask:nth-child(3) { border-left-color: var(--amber); }
+    .ask:nth-child(4) { border-left-color: var(--red); }
+
+    .quote {
+      border-radius: var(--radius);
+      padding: 30px;
+      color: white;
+      background: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .quote p {
+      max-width: 940px;
+      margin-bottom: 0;
+      font-size: clamp(23px, 3vw, 34px);
+      line-height: 1.35;
+    }
+
+    .quote span {
+      display: block;
+      margin-top: 16px;
+      color: rgba(255, 255, 255, 0.73);
+    }
+
+    footer {
+      padding: 34px 0 48px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .links { display: none; }
+      .hero-grid,
+      .section-head,
+      .team-grid,
+      .formula,
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3,
+      .grid-4,
+      .maturity,
+      .baseline-flow,
+      .phase-wrap,
+      .ask-wrap { grid-template-columns: repeat(2, 1fr); }
+      .org-chart { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 28px, 1180px); }
+      .hero { min-height: auto; padding-top: 46px; }
+      .grid-3,
+      .grid-4,
+      .maturity,
+      .baseline-flow,
+      .phase-wrap,
+      .ask-wrap,
+      .org-chart { grid-template-columns: 1fr; }
+      .signal { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar,
+      .progress,
+      .hero-actions { display: none; }
+      section,
+      .hero { padding: 28px 0; break-inside: avoid; }
+      .hero { min-height: auto; }
+      .panel,
+      .card,
+      .metric,
+      .phase,
+      .ask,
+      .team-card,
+      .hero-card,
+      .quote,
+      .metric-table { box-shadow: none; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header class="topbar">
+    <nav class="shell nav" aria-label="页面导航">
+      <a class="brand" href="#top"><span class="brand-mark">S10X</span><span>Societas 10X Productivity</span></a>
+      <div class="links">
+        <a href="#productivity">Productivity</a>
+        <a href="#metrics">Metrics</a>
+        <a href="#baseline">Baseline</a>
+        <a href="#landing">10X Plan</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="reveal">
+          <h1>Societas <span class="hero-title-accent">10X</span> Productivity</h1>
+        </div>
+      </div>
+    </section>
+
+    <section id="productivity">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Productivity</h2>
+          <p>Productivity 的定义不能只看代码量。这里先看行业标准框架演进，再用 Anthropic、AI 初创公司和 Societas 四因子模型建立共同语言。</p>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:24px">
+          <h3>行业标准框架演进</h3>
+          <p>行业对 productivity 的理解已经从“活动量”逐步走向“价值流、质量、体验和业务结果”的组合衡量。</p>
+        </div>
+
+        <div class="table-scroll reveal">
+          <table class="metric-table compact" aria-label="行业标准框架演进">
+            <thead>
+              <tr>
+                <th>框架</th>
+                <th>来源</th>
+                <th>核心思想</th>
+                <th>对 Societas 的启发</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>DORA</td><td>Google DevOps Research</td><td>交付效率 = 速度 + 稳定性。</td><td>Delivery Flow 和 Quality Stability 必须一起看。</td></tr>
+              <tr><td>SPACE</td><td>Microsoft / GitHub / UVic</td><td>从满意度、绩效、活动量、协作、效率五个维度看开发者生产力。</td><td>Team Flow Health 不能缺席，且不能用单一指标做个人考核。</td></tr>
+              <tr><td>DX Core 4</td><td>DX</td><td>统一 DORA、SPACE 和 developer experience 的关键指标。</td><td>把工程系统数据和团队体验数据放在同一个 dashboard。</td></tr>
+              <tr><td>Flow Framework</td><td>Mik Kersten</td><td>从价值流视角看工作如何从需求流向用户价值。</td><td>Outcome Velocity 和 Delivery Flow 要连接起来，而不是只看局部效率。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>Anthropic: 从 8x 代码量到多层验证</h3>
+          <p>Anthropic 报告里最醒目的数字是典型工程师的 lines merged / engineer / day 约为 2024 年的 8x。但他们也明确说明：代码行数只是粗信号，需要用质量、受控 benchmark、主观调查和真实案例一起校准。</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card reveal">
+            <span class="tag">Level 1 · 量</span>
+            <h3>代码行数 8x</h3>
+            <p>Lines merged / engineer / day 是客观、可自动统计的活动量信号，但容易高估真实 productivity。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">Level 2 · 质</span>
+            <h3>Session 成功率</h3>
+            <p>按任务难度看 Claude Code session 是否无需纠正就完成任务，开放式任务成功率达到 76% 是质量信号。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">Level 3 · 主观</span>
+            <h3>员工调查 4x</h3>
+            <p>研究团队主观估计使用 AI 后产出约 4x。主观感受不能单独作证，但能补充系统数据看不到的体验。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">Level 4 · 受控</span>
+            <h3>优化 benchmark 52x</h3>
+            <p>在固定目标和正确性检查下，让模型反复优化同一任务，形成可跨模型、跨时间比较的标准化指标。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">Level 5 · 案例</span>
+            <h3>真实场景 ROI</h3>
+            <p>例如大规模修复、两小时 debug、自动 review 捕获历史问题，验证 AI 是否在真实工作里减少人力和等待。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">方法论</span>
+            <h3>不迷信单一指标</h3>
+            <p>Anthropic 的方法不是用一个数字证明 10x，而是用活动量、质量、感知、受控实验和真实案例交叉验证。</p>
+          </article>
+        </div>
+
+        <div class="table-scroll reveal" style="margin-top:16px">
+          <table class="metric-table compact" aria-label="Anthropic 实际度量体系">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>类型</th>
+                <th>Anthropic Before</th>
+                <th>Anthropic After</th>
+                <th>为什么用</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Lines merged / engineer / day</td><td>Activity</td><td>2021-2024 基本稳定，AI 还未显著改变合入量。</td><td>2026 Q2 典型工程师约为 2024 的 8x。</td><td>工程产出粗信号，客观但不能代表最终价值。</td></tr>
+              <tr><td>Claude 代码占比</td><td>Activity</td><td>Claude Code 研究预览前为 low single digits。</td><td>2026 年 5 月，生产合入代码超过 80% 可归因于 Claude。</td><td>衡量 AI 渗透度和工作方式变化。</td></tr>
+              <tr><td>Session success rate，按难度分层</td><td>Performance</td><td>复杂和开放式任务需要更多纠正、重定向或人工接管。</td><td>最开放任务成功率达到 76%，六个月提升 50 个百分点。</td><td>衡量 AI 是否真的完成任务，代码是否能用。</td></tr>
+              <tr><td>优化 benchmark，同一测试跨模型</td><td>Performance</td><td>2025 年 5 月 Claude Opus 4 平均约 3x speedup。</td><td>2026 年 4 月 Mythos Preview 达到约 52x speedup。</td><td>标准化比较研究和实验执行能力。</td></tr>
+              <tr><td>员工主观调查</td><td>Satisfaction</td><td>无 AI 模型辅助时的自估产出作为 1x 基线。</td><td>2026 年 3 月研究团队受访者中位数估计约 4x output。</td><td>补充定量系统看不到的人类体验和感知变化。</td></tr>
+              <tr><td>纠正 / 接管率下降趋势</td><td>Quality</td><td>早期更频繁需要人工纠正、重定向或接管。</td><td>过去一年持续下降，复杂开放任务上也在改善。</td><td>衡量 Agent 可靠性是否提升。</td></tr>
+              <tr><td>实际案例量化</td><td>Efficiency</td><td>某类 API error 修复估计人工需要多年；复杂 debug 通常需要数天。</td><td>Claude 完成 800+ 修复；一次复杂 debug 约 2 小时完成。</td><td>用真实场景验证 ROI，例如大规模修复和复杂 debug。</td></tr>
+              <tr><td>自动审查捕获率</td><td>Quality</td><td>历史 incident 相关 bug 只能依赖人工 review 和已有流程。</td><td>回溯分析显示自动 Claude review 可提前捕获约 1/3 claude.ai 历史 incident bug。</td><td>衡量 AI review 对质量保障的贡献。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>AI 初创公司: Productivity = Revenue / Employee</h3>
+          <p>AI 初创公司的 productivity 更接近业务杠杆：同样人数能否创造更多收入、用户增长、API 调用和客户价值。工程轨和研究轨最终都要回到业务结果。</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card reveal">
+            <span class="tag">工程轨</span>
+            <h3>交付系统效率</h3>
+            <ul>
+              <li>DORA 四指标</li>
+              <li>PR 合并速度</li>
+              <li>基础设施可靠性</li>
+              <li>部署频率</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <span class="tag">研究轨</span>
+            <h3>实验和模型进步</h3>
+            <ul>
+              <li>实验吞吐量</li>
+              <li>论文 / 发现</li>
+              <li>模型能力提升</li>
+              <li>Benchmark 进步</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <span class="tag">业务结果</span>
+            <h3>Revenue / Employee</h3>
+            <ul>
+              <li>用户增长 / 收入 / API 调用</li>
+              <li>模型成本下降 / 推理效率</li>
+              <li>客户满意度 / 留存</li>
+              <li>每位员工创造的业务结果</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>Societas: 四因子 productivity 模型</h3>
+          <p>对 Societas 来说，更适合采用一个团队系统视角：Productivity = 商业效率 × 工程效率 × 产品质量 × 团队协作效率。这也对应我们后面的 4 个核心指标。</p>
+        </div>
+
+        <div class="equation reveal">
+          <strong>Productivity = 商业效率 × 工程效率 × 产品质量 × 团队协作效率</strong>
+          <p>对应到 Metrics 模块：Outcome Velocity 看商业效率，Delivery Flow 看工程效率，Quality Stability 看产品质量，Team Flow Health 看团队协作效率。AI Level Achievement 不单独作为 productivity，而是解释 AI 对这四项改善的贡献。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Metrics</h2>
+          <p>所有指标定义集中在这里：AI Level 作为参考框架，核心指标用于判断 productivity，AI Level 达成情况用于解释 AI 对团队提效的贡献，辅助验证指标用于定位原因。</p>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>核心指标</h3>
+          <p>指标分成两类：4 个 high-level 核心指标判断 productivity 是否真的提升；AI Level 达成情况用来解释 AI 对这些提升的贡献。辅助验证指标用于定位原因和瓶颈。</p>
+        </div>
+
+        <div class="table-scroll reveal">
+          <table class="metric-table compact" aria-label="Societas Productivity high-level 核心指标">
+            <thead>
+              <tr>
+                <th>High-level 核心指标</th>
+                <th>指标定义</th>
+                <th>怎么衡量</th>
+                <th>为什么设计</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Outcome Velocity</td>
+                <td><strong>Outcome Validation Lead Time</strong><br>计算：outcome validated date - committed date。按 product goal / customer problem 统计 P50/P75。</td>
+                <td>每个 workstream 绑定一个 outcome metric；没有 outcome metric 的任务只进入辅助统计。</td>
+                <td>Productivity 最终要体现为更快交付有价值结果，而不是更多工程活动。</td>
+              </tr>
+              <tr>
+                <td>Delivery Flow</td>
+                <td><strong>Delivery Lead Time</strong><br>计算：production-ready date - ready/committed date。按 feature、bug、incident、tech debt 分层统计 P50/P75/P90。</td>
+                <td>按 work item 类型分层；同时保留 blocked time 作为辅助解释指标。</td>
+                <td>衡量端到端价值流是否变快，避免只优化编码局部。</td>
+              </tr>
+              <tr>
+                <td>Quality Stability</td>
+                <td><strong>Quality Guardrail Index</strong><br>计算：Change Failure Rate、Bug Escape/Reopen Rate、MTTR 三项分别看趋势，不强行合成一个分数。</td>
+                <td>Delivery Flow 改善时，三项质量护栏不能同步恶化；异常时 drill down 到测试、review、需求和发布原因。</td>
+                <td>10X 不能用质量透支换速度；质量是 productivity 的约束条件。</td>
+              </tr>
+              <tr>
+                <td>Team Flow Health</td>
+                <td><strong>Flow Health Score</strong><br>计算：Blocked Time 趋势 + handoff friction pulse + AI trust/satisfaction pulse；定期观察，不做个人排名。</td>
+                <td>系统数据 + pulse survey 结合；只看团队和流程。</td>
+                <td>防止 productivity 只看系统吞吐，忽略上下文切换、协作成本和团队信任。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>AI Level Achievement</h3>
+          <p>AI Level Achievement 记录 AI 从个人工具走向团队工作流的程度，用来解释 4 个核心指标的改善是否来自 AI 工作方式升级。</p>
+        </div>
+
+        <div class="table-scroll reveal" style="margin-top:16px">
+          <table class="metric-table compact" aria-label="AI Level 达成情况">
+            <thead>
+              <tr>
+                <th>AI Level 达成情况</th>
+                <th>指标定义</th>
+                <th>怎么衡量</th>
+                <th>如何与 4 个核心指标一起看</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>AI Level Achievement</td>
+                <td><strong>L3 Workflow Adoption</strong><br>计算：满足 role card、task contract、tool access、verification、human escalation 的 L3 工作流数量；并跟踪 Agent Task Success Rate。</td>
+                <td>优先看团队协作、PR / release、质量评估和知识沉淀等 L3 工作流；同时看 Agent Task Success Rate、Human Intervention Rate、Machine-verifiable Task Ratio。</td>
+                <td>AI Level 不单独作为 productivity 成功标准；它需要和 Outcome Velocity、Delivery Flow、Quality Stability、Team Flow Health 联动，判断 AI 对团队提效的贡献。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>AI Level 参考</h3>
+          <p>AI Level 是 AI Level Achievement 的判断参考。先定义 AI 在团队中的工作方式，再看它是否带动核心指标改善。</p>
+        </div>
+
+        <div class="maturity reveal" aria-label="AI Level 达成情况参考">
+          <article class="level" style="--level-color:#c75a45">
+            <small>L1 · 个人 AI 使用</small>
+            <h3>Thought Partner</h3>
+            <p>写代码、写文档、总结、头脑风暴。价值主要来自个人习惯，团队无法稳定复用，过程和结果也难以统一度量。</p>
+            <ul>
+              <li>参考指标：AI 使用人数、AI-assisted task 数、个人感知节省时间。</li>
+              <li>当前判断：已普遍出现，但不能作为 10X 目标。</li>
+            </ul>
+          </article>
+          <article class="level current" style="--level-color:#c7862d">
+            <small>L2 · 个人任务辅助</small>
+            <h3>Assistant</h3>
+            <p>AI 接入部分上下文，帮助完成个人任务。工具已进入日常工作，但缺少统一 task contract、验证标准和团队级 dashboard。</p>
+            <ul>
+              <li>参考指标：AI-assisted PR ratio、AI review/test generation 使用量、个人任务 cycle time。</li>
+              <li>当前判断：Copilot、通用 AI、PraestoClaw、AI review/test generation 均有基础。</li>
+            </ul>
+          </article>
+          <article class="level target" style="--level-color:#166a4d">
+            <small>L3 · AI as teammates</small>
+            <h3>Team Workflow</h3>
+            <p>Agent 承担团队级重复工作流。每个 Agent 有角色、权限、输入输出和验收标准，人类负责目标、检查点和高风险决策。</p>
+            <ul>
+              <li>参考指标：L3 workflow count、Agent task success rate、human intervention rate、machine-verifiable task ratio。</li>
+              <li>阶段目标：让团队协作、PR / release、质量评估等高频流程逐步进入 L3。</li>
+            </ul>
+          </article>
+          <article class="level" style="--level-color:#285f8f">
+            <small>L4 · AI as system</small>
+            <h3>Autonomous System</h3>
+            <p>AI 运行关键业务流程并持续优化。流程由 AI 持续监控、执行、验证和改进，只把异常和重大权衡升级给人。</p>
+            <ul>
+              <li>参考指标：autonomous workflow uptime、exception escalation rate、business KPI impact、governance audit pass rate。</li>
+              <li>当前判断：短期不作为主攻目标，只保留为长期方向。</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>辅助验证指标</h3>
+          <p>辅助指标不单独作为成功标准，用来解释 4 个核心指标和 AI Level 为什么变化，以及下一步该修哪里。</p>
+        </div>
+
+        <div class="table-scroll reveal">
+          <table class="metric-table compact" aria-label="Societas Productivity 辅助验证指标">
+            <thead>
+              <tr>
+                <th>归属 / 用途</th>
+                <th>辅助验证指标</th>
+                <th>怎么衡量</th>
+                <th>用于解释什么</th>
+                <th>外部对照</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Outcome Velocity</td>
+                <td>High-value work ratio</td>
+                <td>高价值需求 / 全部完成需求；高价值由 PM 定义 success metric 后进入统计。</td>
+                <td>如果交付变快但高价值比例下降，说明只是吞吐增加，不是 productivity 增加。</td>
+                <td>AI 初创常用业务 KPI、客户满意度和收入/API 使用量校准。</td>
+              </tr>
+              <tr>
+                <td>Delivery Flow</td>
+                <td>Cycle Time</td>
+                <td>从开发开始到 PR merge / 可验证完成；按任务类型看 P50/P75。</td>
+                <td>解释 Lead Time 变化是来自执行变快，还是排队/等待变化。</td>
+                <td>AI 初创常看 PR merge speed、实验完成周期。</td>
+              </tr>
+              <tr>
+                <td>Delivery Flow</td>
+                <td>PR Review Time</td>
+                <td>PR 创建到首次有效 review、最后一次提交到 merge；区分等待 reviewer 和等待作者。</td>
+                <td>判断 AI 加速编码后，human review 是否成为瓶颈。</td>
+                <td>Anthropic 明确提到 human review 会成为 AI 加速后的新瓶颈。</td>
+              </tr>
+              <tr>
+                <td>Delivery Flow</td>
+                <td>Blocked Time</td>
+                <td>work item 处于 blocked / waiting 状态的累计时间；记录阻塞原因。</td>
+                <td>解释慢是慢在开发、review、测试、需求澄清、环境还是跨团队依赖。</td>
+                <td>Flow / DevEx 常用 flow efficiency 和 wait time。</td>
+              </tr>
+              <tr>
+                <td>Quality Stability</td>
+                <td>Bug Escape / Reopen Rate</td>
+                <td>逃逸到后续阶段或生产的问题比例；已关闭 bug 被 reopen 的比例。</td>
+                <td>解释质量护栏变化来自需求理解、测试覆盖、review 质量还是 AI 产出质量。</td>
+                <td>Claude 关注纠正/接管率和自动 review 缺陷捕获率。</td>
+              </tr>
+              <tr>
+                <td>Quality Stability</td>
+                <td>Test Pass / Flaky Rate</td>
+                <td>CI 测试通过率、flaky test 数量、人工测试阻塞次数。</td>
+                <td>判断质量问题是产品缺陷、测试环境不稳，还是验证体系不足。</td>
+                <td>AI 初创会把 eval coverage、CI check、benchmark 稳定性作为护栏。</td>
+              </tr>
+              <tr>
+                <td>AI Level 达成情况</td>
+                <td>L3 workflow count</td>
+                <td>满足 role card、task contract、tool access、verification、human escalation 的 Agent 工作流数量。</td>
+                <td>判断 AI 是否进入团队工作流，而不是停留在个人助手。</td>
+                <td>Anthropic human-agent teams 强调 roster、tools、shared context、verification。</td>
+              </tr>
+              <tr>
+                <td>AI Level 达成情况</td>
+                <td>Agent Task Success Rate</td>
+                <td>Agent 输出无需重大返工并通过验收的比例；按任务类型和风险等级统计。</td>
+                <td>解释 L3 工作流是否真的可靠。</td>
+                <td>Anthropic 用 session success rate，并按任务难度分层。</td>
+              </tr>
+              <tr>
+                <td>AI Level 达成情况</td>
+                <td>Human Intervention Rate</td>
+                <td>每个 Agent 任务中人类纠偏、补上下文、接管、重做的次数和比例。</td>
+                <td>判断 AI 是减少执行负担，还是把工作转移成 prompt、解释和返工。</td>
+                <td>Anthropic 关注纠正/接管率下降，AI 初创用它判断 agent workflow 是否可规模化。</td>
+              </tr>
+              <tr>
+                <td>AI Level 达成情况</td>
+                <td>Machine-verifiable Task Ratio</td>
+                <td>有自动测试、脚本、rubric、checklist 或 verifier agent 可验证的任务比例。</td>
+                <td>判断是否具备给 Agent 放权的基础。</td>
+                <td>Anthropic 强调 doer-verifier harness、tests、rubrics、style guides。</td>
+              </tr>
+              <tr>
+                <td>AI Level 达成情况</td>
+                <td>AI-readable Backlog Ratio</td>
+                <td>具备 problem、scope、non-goals、相关系统、验收标准、验证命令、风险等级的 backlog 比例。</td>
+                <td>解释 Agent 失败是能力问题，还是任务定义和上下文问题。</td>
+                <td>Anthropic 强调 public context 和 written artifacts；AI 初创强调 hypothesis、metric、owner、eval。</td>
+              </tr>
+              <tr>
+                <td>Team Flow Health</td>
+                <td>Meeting Load / Focus Time</td>
+                <td>会议时长、无会块、上下文切换次数；结合 pulse survey。</td>
+                <td>判断团队是否真的减少摩擦，而不是只是把压力换了形式。</td>
+                <td>SPACE / DevEx 常看 satisfaction、communication、efficiency。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="baseline">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Baseline <span class="wip-badge">WIP</span></h2>
+          <p>先定义“跟什么时候比”和“数据从哪里来”，再讨论 10X。Baseline 当前处于 WIP，重点是先建立稳定口径，让后续趋势可追踪。</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="panel reveal">
+            <span class="tag">跟什么时候对比</span>
+            <h3>建议用两层 baseline</h3>
+            <ul>
+              <li>历史 baseline：试点启动前选择一段稳定历史窗口，作为当前系统状态。</li>
+              <li>滚动 baseline：试点启动后按固定口径持续统计。</li>
+              <li>对比窗口：先看方向，再看稳定趋势，最后判断是否可复制。</li>
+              <li>分层对比：feature、bug、incident、tech debt、test work 分开看。</li>
+            </ul>
+          </article>
+          <article class="panel reveal">
+            <span class="tag">获取和现状</span>
+            <h3>先把分散数据变成可重复口径</h3>
+            <ul>
+              <li>工作模式是混合模式，必须先统一开始、完成、阻塞、返工等状态定义。</li>
+              <li>系统数据覆盖 ADO/Jira、Repo、CI/CD、测试管理、Incident/Monitoring、Teams/Calendar，但比较分散。</li>
+              <li>AI 使用处于 L1/L2：Copilot、通用 AI、PraestoClaw、AI review/test generation 均有使用痕迹。</li>
+              <li>当前痛点还在收集，需要用 baseline 把感受转成可讨论、可跟踪的事实。</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>获取和现状</h3>
+          <p>Baseline 当前不追求一次完整，先建立可重复口径和最小可用 dashboard。</p>
+        </div>
+
+        <div class="baseline-flow reveal">
+          <article class="baseline-step">
+            <b>1</b>
+            <h3>定义口径</h3>
+            <p>按 work item 类型拆分：feature、bug、incident、tech debt、test work、support work。先统一什么算开始、完成、阻塞、返工。</p>
+          </article>
+          <article class="baseline-step">
+            <b>2</b>
+            <h3>拉取系统数据</h3>
+            <p>ADO/Jira、Repo、CI/CD、测试系统、Incident/Monitoring、Teams/Calendar。数据散不是阻碍，先建立最小可用 dashboard。</p>
+          </article>
+          <article class="baseline-step">
+            <b>3</b>
+            <h3>补充人工调研</h3>
+            <p>用 pulse survey 和访谈补齐系统看不到的摩擦：需求不清、等待、上下文切换、工具体验、AI 信任度。</p>
+          </article>
+          <article class="baseline-step">
+            <b>4</b>
+            <h3>固定节奏复盘</h3>
+            <p>不追求第一版完美，先让趋势可见。持续看 top bottlenecks、AI adoption friction、质量护栏是否恶化。</p>
+          </article>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <article class="panel reveal">
+            <h3>Baseline dashboard（WIP）</h3>
+            <ul>
+              <li>核心视图：首页只放 Outcome Velocity、Delivery Flow、Quality Stability、Team Flow Health，以及 AI Level 达成情况。</li>
+              <li>辅助验证：Cycle Time、PR Review Time、blocked time、bug escape、test pass、agent success、human intervention 等作为 drill-down。</li>
+              <li>分层视图：feature、bug、incident、tech debt、test work 分开看。</li>
+              <li>趋势视图：历史 baseline + 滚动变化。</li>
+            </ul>
+          </article>
+          <article class="panel reveal">
+            <h3>统计原则</h3>
+            <ul>
+              <li>先看团队和流程，不做个人绩效排名。</li>
+              <li>先看趋势，不用单点数字做结论。</li>
+              <li>先做分层，不把 feature、bug、incident 混成一个平均数。</li>
+              <li>先有护栏，再追求速度。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="landing">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>10X Plan</h2>
+          <p>10X Plan 不是单点工具替换，而是围绕团队协作、个人任务、人与 Agent 协作和质量保证四条线，把高频工作流变成 AI-readable、machine-verifiable、可复盘、可复制的团队操作系统。</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <article class="card reveal">
+            <span class="tag">团队协作加速</span>
+            <h3>信息透明、SOP、会议和知识流</h3>
+            <ul>
+              <li>团队信息透明度：PraestoClaw 进入 group chat，读取 group context、team memory、company background。</li>
+              <li>主动访问与被动通知：让关键项目状态、决策、风险自动浮出，而不是靠人到处问。</li>
+              <li>Team SOP / RoB / PMO：梳理团队 SOP，并和 workflow 集成。</li>
+              <li>会议高效：会前拷问出参会人想清楚“为什么开会”，会议只讨论和决策。</li>
+              <li>知识共享：把项目结论、决策、复盘和 FAQ 沉淀为可搜索上下文。</li>
+            </ul>
+            <p><strong>关联核心指标：</strong>Team Flow Health、Delivery Flow、Outcome Velocity。<br><strong>关联 AI Level：</strong>L2 -> L3，PraestoClaw 从个人问答进入团队工作流。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">个人加速</span>
+            <h3>Dev / PM 的个人任务效率</h3>
+            <ul>
+              <li>Dev 痛点收集：LLM 太慢、等待时间长、pipeline 时长、上下文缺失。</li>
+              <li>项目 Agent friendly：为项目任务定义 skill / workflow，保证结果正确，而不是只记录过程步骤。</li>
+              <li>Code / Doc：代码理解、文档生成、变更说明、release note 自动化。</li>
+              <li>代码 release 现状：梳理哪些环节可由 Agent 准备材料、检查清单和风险摘要。</li>
+              <li>PM 任务加速：需求整理、用户反馈聚类、方案草稿、状态同步和决策材料。</li>
+            </ul>
+            <p><strong>关联核心指标：</strong>Delivery Flow、Team Flow Health。<br><strong>关联 AI Level：</strong>L1 -> L2，先提升个人任务效率，再沉淀为团队 workflow。</p>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <article class="card reveal">
+            <span class="tag">个人与 Agent 协作加速</span>
+            <h3>从 Copilot 到项目 Agent</h3>
+            <ul>
+              <li>收集个人和 Agent 协作痛点：哪些任务 AI 能做一部分，哪些因为上下文、工具、权限或验证卡住。</li>
+              <li>明确哪些工作适合交给 Agent：manual tester 辅助事项、PR 阶段检查、变更风险说明、项目状态整理。</li>
+              <li>Skill / Workflow 设计原则：以“结果正确”为目标，而不是要求 Agent 复刻人类步骤。</li>
+              <li>Agent 输出必须带验证依据：测试、rubric、checklist、diff summary、risk summary。</li>
+            </ul>
+            <p><strong>关联核心指标：</strong>Delivery Flow、Quality Stability、Team Flow Health。<br><strong>关联 AI Level：</strong>L2 -> L3，形成可重复的 Agent task contract。</p>
+          </article>
+          <article class="card reveal">
+            <span class="tag">产品质量保证</span>
+            <h3>Self-eval、online eval、manual test</h3>
+            <ul>
+              <li>Self-eval + online eval：让功能、模型、Agent 输出尽量先被自动化评估。</li>
+              <li>Manual test：保留 release 阶段人工测试，重点验证高风险路径和用户体验。</li>
+              <li>PR / release 阶段质量清单：测试覆盖、回归风险、已知问题、rollback 条件。</li>
+              <li>将质量信号接入 dashboard：change failure、bug escape、reopen、test pass、flaky、manual test blockers。</li>
+            </ul>
+            <p><strong>关联核心指标：</strong>Quality Stability、Outcome Velocity。<br><strong>关联 AI Level：</strong>L3 的前提是 machine-verifiable task ratio 提升。</p>
+          </article>
+        </div>
+
+        <div class="phase-wrap">
+          <article class="phase reveal">
+            <span class="tag">阶段一</span>
+            <h3>诊断与任务建模</h3>
+            <ul>
+              <li>收集团队协作、Dev、PM、Test、release 的具体痛点。</li>
+              <li>把痛点映射到 4 个核心指标和 AI Level。</li>
+              <li>识别哪些任务适合个人 AI，哪些适合团队 Agent workflow。</li>
+              <li>定义每类 Agent task 的输入、输出、验证方式和升级条件。</li>
+            </ul>
+          </article>
+          <article class="phase reveal">
+            <span class="tag">阶段二</span>
+            <h3>试点工作流</h3>
+            <ul>
+              <li>PraestoClaw in group chat：团队上下文、团队记忆、公司背景。</li>
+              <li>PR / release workflow：风险摘要、测试建议、release note、manual test 辅助。</li>
+              <li>PM / Dev workflow：需求澄清、状态同步、文档和决策记录。</li>
+              <li>Quality workflow：self-eval、online eval、manual test 信号接入。</li>
+            </ul>
+          </article>
+          <article class="phase reveal">
+            <span class="tag">阶段三</span>
+            <h3>固化和扩展</h3>
+            <ul>
+              <li>沉淀 SOP、workflow、agent role card、checklist。</li>
+              <li>把成功工作流接入 baseline dashboard。</li>
+              <li>复盘哪些指标改善来自 AI，哪些仍是流程或组织瓶颈。</li>
+              <li>形成可推广到其他团队的样板间 playbook。</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px">
+          <article class="panel reveal">
+            <h3>Human-Agent Team 规则</h3>
+            <ul>
+              <li>Public context：关键讨论、决策、项目状态进入 Teams 项目流。</li>
+              <li>Agent role card：每个 Agent 明确职责、权限、工具和升级条件。</li>
+              <li>Task contract：每类任务有输入模板、输出格式和验收标准。</li>
+              <li>Doer-verifier：Agent 执行后先由验证机制检查，再进入人工 review。</li>
+            </ul>
+          </article>
+          <article class="panel reveal">
+            <h3>可见产出</h3>
+            <ul>
+              <li>一套 Societas productivity 指标和 baseline dashboard。</li>
+              <li>团队协作、个人任务、Agent 协作、质量保证四类工作流实践。</li>
+              <li>PraestoClaw 进入 Teams 项目流的实践方式。</li>
+              <li>可推广到其他团队的 playbook：SOP、workflow、模板、角色、检查表和复盘方法。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="shell">Societas 10X Productivity 样板间 · 指标、baseline、AI-native 工作流与 10X Plan</div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById('progress');
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach((node) => observer.observe(node));
+
+    function updateProgress() {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
+      progress.style.width = pct + '%';
+    }
+
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+  </script>
+</body>
+</html>
