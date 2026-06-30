@@ -131,6 +131,7 @@
     #productivity { --module: #8b5cf6; --module-soft: rgba(139, 92, 246, 0.1); }
     #metrics { --module: #4b6cff; --module-soft: rgba(75, 108, 255, 0.1); }
     #baseline { --module: #17a0a6; --module-soft: rgba(23, 160, 166, 0.1); }
+    #gaps { --module: #f59e0b; --module-soft: rgba(245, 158, 11, 0.12); }
     #landing { --module: #ff6b8a; --module-soft: rgba(255, 107, 138, 0.11); }
 
     .hero {
@@ -618,6 +619,160 @@
       font-size: 13px;
     }
 
+    .gaps-scroll .metric-table {
+      min-width: 0;
+      table-layout: fixed;
+    }
+
+    .gaps-table th,
+    .gaps-table td {
+      padding: 12px 13px;
+      font-size: 12.5px;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    .gaps-table th:nth-child(1),
+    .gaps-table td:nth-child(1) { width: 10%; }
+    .gaps-table th:nth-child(2),
+    .gaps-table td:nth-child(2) { width: 27%; }
+    .gaps-table th:nth-child(3),
+    .gaps-table td:nth-child(3) { width: 16%; }
+    .gaps-table th:nth-child(4),
+    .gaps-table td:nth-child(4) { width: 23%; }
+    .gaps-table th:nth-child(5),
+    .gaps-table td:nth-child(5) { width: 24%; }
+
+    .journey-scroll {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .timeline-diagram {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(11, minmax(0, 1fr));
+      min-width: 0;
+      padding: 20px 10px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-diagram::before {
+      content: "";
+      position: absolute;
+      top: 102px;
+      right: 52px;
+      left: 52px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(75, 108, 255, 0.25), var(--module), rgba(75, 108, 255, 0.25));
+    }
+
+    .timeline-node {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 66px 36px auto;
+      align-items: start;
+      justify-items: center;
+      min-height: 164px;
+      padding: 0 3px;
+      text-align: center;
+    }
+
+    .timeline-node strong {
+      align-self: end;
+      color: var(--ink);
+      max-width: 100%;
+      font-size: 11px;
+      line-height: 1.18;
+      overflow-wrap: anywhere;
+    }
+
+    .timeline-node b {
+      align-self: center;
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 999px;
+      color: white;
+      background: var(--module);
+      font-size: 13px;
+      box-shadow: 0 0 0 7px var(--paper);
+    }
+
+    .timeline-node small {
+      padding-top: 4px;
+      color: var(--module);
+      max-width: 100%;
+      font-size: 10px;
+      font-weight: 820;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .metric-band-scroll {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-band-board {
+      display: grid;
+      grid-template-columns: 124px repeat(11, minmax(0, 1fr));
+      gap: 8px 6px;
+      min-width: 0;
+      padding: 16px;
+    }
+
+    .metric-band-label,
+    .metric-band-axis {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 820;
+      line-height: 1.25;
+    }
+
+    .metric-band-label {
+      grid-column: 1 / 2;
+      color: var(--module);
+      text-align: right;
+    }
+
+    .metric-band-axis {
+      min-height: 30px;
+      text-align: center;
+    }
+
+    .metric-band {
+      display: flex;
+      align-items: center;
+      min-height: 36px;
+      border-radius: var(--radius);
+      padding: 6px 10px;
+      color: white;
+      font-size: 11px;
+      font-weight: 820;
+      line-height: 1.25;
+      background: var(--module);
+      overflow-wrap: anywhere;
+    }
+
+    .metric-band.soft {
+      color: var(--module);
+      background: var(--module-soft);
+      border: 1px solid rgba(75, 108, 255, 0.22);
+    }
+
     .baseline-flow {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -725,6 +880,8 @@
 
     @media (max-width: 640px) {
       .shell { width: min(100% - 28px, 1180px); }
+      .timeline-diagram { min-width: 980px; }
+      .metric-band-board { min-width: 980px; }
       .hero { min-height: auto; padding-top: 46px; }
       .grid-3,
       .grid-4,
@@ -768,6 +925,7 @@
         <a href="#productivity">Productivity</a>
         <a href="#metrics">Metrics</a>
         <a href="#baseline">Baseline</a>
+        <a href="#gaps">Gaps</a>
         <a href="#landing">10X Plan</a>
       </div>
     </nav>
@@ -929,12 +1087,91 @@
       <div class="shell">
         <div class="section-head reveal">
           <h2>Metrics</h2>
-          <p>所有指标定义集中在这里：AI Level 作为参考框架，核心指标用于判断 productivity，AI Level 达成情况用于解释 AI 对团队提效的贡献，辅助验证指标用于定位原因。</p>
+          <p>所有指标定义集中在这里：每个核心指标都要有清晰事件口径、数据源、统计方法和验证规则。核心指标判断 productivity 是否提升，AI Level Achievement 解释 AI 对这些提升的贡献，辅助验证指标用于定位原因。</p>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>项目 / 任务时间线与质量门</h3>
+          <p>一件事从出现到上线，不应该靠主观宣布进入下一阶段，而是靠产出物通过质量门。时间点由质量门形成，指标只是读取这些时间点之间的差值。</p>
+        </div>
+
+        <div class="journey-scroll reveal" aria-label="项目任务从问题到上线的时间线">
+          <div class="timeline-diagram">
+            <div class="timeline-node"><strong>Signal</strong><b>0</b><small>captured</small></div>
+            <div class="timeline-node"><strong>Problem</strong><b>1</b><small>framed</small></div>
+            <div class="timeline-node"><strong>Outcome</strong><b>2</b><small>contract ready</small></div>
+            <div class="timeline-node"><strong>Ready</strong><b>3</b><small>committed</small></div>
+            <div class="timeline-node"><strong>Solution</strong><b>4</b><small>ready</small></div>
+            <div class="timeline-node"><strong>Execution</strong><b>5</b><small>done</small></div>
+            <div class="timeline-node"><strong>Verify</strong><b>6</b><small>passed</small></div>
+            <div class="timeline-node"><strong>Prod-ready</strong><b>7</b><small>ready</small></div>
+            <div class="timeline-node"><strong>Release</strong><b>8</b><small>released</small></div>
+            <div class="timeline-node"><strong>Validate</strong><b>9</b><small>outcome</small></div>
+            <div class="timeline-node"><strong>Learn</strong><b>10</b><small>captured</small></div>
+          </div>
+        </div>
+
+        <div class="metric-band-scroll reveal" aria-label="核心指标和时间线的关系">
+          <div class="metric-band-board">
+            <div class="metric-band-label">核心指标</div>
+            <div class="metric-band-axis">Signal</div>
+            <div class="metric-band-axis">Problem</div>
+            <div class="metric-band-axis">Outcome</div>
+            <div class="metric-band-axis">Ready</div>
+            <div class="metric-band-axis">Solution</div>
+            <div class="metric-band-axis">Execution</div>
+            <div class="metric-band-axis">Verify</div>
+            <div class="metric-band-axis">Prod-ready</div>
+            <div class="metric-band-axis">Release</div>
+            <div class="metric-band-axis">Validate</div>
+            <div class="metric-band-axis">Learn</div>
+
+            <div class="metric-band-label">Outcome Velocity</div>
+            <div class="metric-band" style="grid-column:4 / 12">Outcome Contract / Ready -> Outcome Validated</div>
+
+            <div class="metric-band-label">Delivery Flow</div>
+            <div class="metric-band" style="grid-column:5 / 10">Ready / Committed -> Production-ready</div>
+
+            <div class="metric-band-label">Quality Stability</div>
+            <div class="metric-band soft" style="grid-column:8 / 12">Verification Passed -> Released -> Outcome Validated</div>
+
+            <div class="metric-band-label">Team Flow Health</div>
+            <div class="metric-band soft" style="grid-column:2 / 13">贯穿全程：blocked time / handoff friction / meeting load / AI trust</div>
+
+            <div class="metric-band-label">AI Level Achievement</div>
+            <div class="metric-band soft" style="grid-column:2 / 13">贯穿全程：L3 workflow / task contract / verification / escalation</div>
+          </div>
+        </div>
+
+        <div class="table-scroll reveal" style="margin-top:16px">
+          <table class="metric-table compact" aria-label="项目任务阶段产出物和质量门">
+            <thead>
+              <tr>
+                <th>阶段</th>
+                <th>产出物</th>
+                <th>质量门：什么情况下可以进入下一阶段</th>
+                <th>形成的时间点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Signal Captured</td><td>Intake record</td><td>来源、原始请求、影响范围、owner 候选、紧急程度和上下文链接清楚。</td><td>signal captured date</td></tr>
+              <tr><td>Problem / Mandate Framed</td><td>Problem Statement / Mandate Translation</td><td>团队能复述同一个问题；能区分 problem、solution、constraint；top-down task 能讲清 leadership intent。</td><td>problem framed date</td></tr>
+              <tr><td>Outcome Contract Ready</td><td>Outcome Contract</td><td>target outcome、success metric 或 validation method、scope、non-goals、owner、risk level 清楚。</td><td>outcome contract ready date</td></tr>
+              <tr><td>Ready / Committed</td><td>Ready Work Item</td><td>problem、scope、acceptance criteria、dependency、risk、verification plan 已明确，团队承诺进入执行。</td><td>ready / committed date</td></tr>
+              <tr><td>Solution Ready</td><td>Solution Brief / Task Plan</td><td>方案和验收标准对齐；任务拆分、测试策略、release strategy、rollback 和 Agent 任务边界清楚。</td><td>solution ready date</td></tr>
+              <tr><td>Execution Done</td><td>Implementation Output</td><td>实现覆盖 acceptance criteria；必要测试、文档、风险说明和作者自检完成；Agent 输出带验证依据。</td><td>execution done date</td></tr>
+              <tr><td>Verification Passed</td><td>Verification Evidence</td><td>PR review、CI、test、manual test、eval 等结果可追溯；失败项有处理结论；没有 blocker。</td><td>verification passed date</td></tr>
+              <tr><td>Production-ready</td><td>Production-ready Package</td><td>merged PR / artifact、test conclusion、release note、rollback、monitoring、known risks 和 response owner 齐备。</td><td>production-ready date</td></tr>
+              <tr><td>Released</td><td>Release Record</td><td>release time、environment、rollout scope、version、feature flag、monitoring link 和异常状态记录完整。</td><td>released date</td></tr>
+              <tr><td>Outcome Validated</td><td>Outcome Validation Record</td><td>success metric、客户反馈、PM 验收、telemetry 或合规验收有证据；下一步决策清楚。</td><td>outcome validated date</td></tr>
+              <tr><td>Learning Captured</td><td>Playbook / SOP Update</td><td>瓶颈、质量问题、AI / Agent 表现和可复用 workflow 被记录，至少形成一个可执行改进项。</td><td>learning captured date</td></tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="section-head subhead reveal" style="margin-top:46px">
           <h3>核心指标</h3>
-          <p>指标分成两类：4 个 high-level 核心指标判断 productivity 是否真的提升；AI Level 达成情况用来解释 AI 对这些提升的贡献。辅助验证指标用于定位原因和瓶颈。</p>
+          <p>4 个 high-level 核心指标只看团队和流程，不做个人排名。每个指标都需要先定义 measurement unit，再定义开始事件、结束事件、过滤条件和判读规则。</p>
         </div>
 
         <div class="table-scroll reveal">
@@ -942,35 +1179,40 @@
             <thead>
               <tr>
                 <th>High-level 核心指标</th>
-                <th>指标定义</th>
-                <th>怎么衡量</th>
-                <th>为什么设计</th>
+                <th>可测量定义</th>
+                <th>事件口径 / 数据源</th>
+                <th>统计与分层</th>
+                <th>验证与判读</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Outcome Velocity</td>
-                <td><strong>Outcome Validation Lead Time</strong><br>计算：outcome validated date - committed date。按 product goal / customer problem 统计 P50/P75。</td>
-                <td>每个 workstream 绑定一个 outcome metric；没有 outcome metric 的任务只进入辅助统计。</td>
-                <td>Productivity 最终要体现为更快交付有价值结果，而不是更多工程活动。</td>
+                <td><strong>Outcome Validation Lead Time</strong><br>计算：outcome validated date - committed date。Measurement unit 是 product goal / customer problem，不是单个 PR 或任务。</td>
+                <td>committed date = 团队接受目标、明确 owner、success metric 和范围的时间；outcome validated date = success metric 达标、客户反馈确认或 PM 验收记录完成的时间。数据来自 ADO/Jira goal、PM validation log、产品 telemetry、客户反馈。</td>
+                <td>按 product goal、customer problem、workstream 统计 P50/P75，并记录未绑定 outcome metric 的 work item 占比。取消、暂停、范围重写的目标单独标记，不混入完成样本。</td>
+                <td>只有当 Outcome Validation Lead Time 下降，同时 high-value work ratio 不下降、质量护栏不恶化，才判断业务效率提升。没有 success metric 的工作不进入核心指标，只进入 backlog 质量问题。</td>
               </tr>
               <tr>
                 <td>Delivery Flow</td>
-                <td><strong>Delivery Lead Time</strong><br>计算：production-ready date - ready/committed date。按 feature、bug、incident、tech debt 分层统计 P50/P75/P90。</td>
-                <td>按 work item 类型分层；同时保留 blocked time 作为辅助解释指标。</td>
-                <td>衡量端到端价值流是否变快，避免只优化编码局部。</td>
+                <td><strong>Delivery Lead Time</strong><br>计算：production-ready date - ready/committed date。Measurement unit 是具备验收标准的 work item。</td>
+                <td>ready/committed date = work item 满足 problem、scope、验收标准、依赖和风险等级，团队承诺进入执行；production-ready date = PR 合入、必要 CI 通过、测试结论可用、release note / rollback 信息齐备。数据来自 ADO/Jira、Repo、PR、CI/CD、测试系统。</td>
+                <td>按 feature、bug、incident、tech debt、test work 分层统计 P50/P75/P90。拆出 queue time、active dev time、review time、test time、blocked time，避免只看总体平均数。</td>
+                <td>Delivery Flow 改善必须伴随 Quality Stability 稳定或改善。如果只是把任务切碎、延后测试、增加返工，不能算 productivity 提升。</td>
               </tr>
               <tr>
                 <td>Quality Stability</td>
-                <td><strong>Quality Guardrail Index</strong><br>计算：Change Failure Rate、Bug Escape/Reopen Rate、MTTR 三项分别看趋势，不强行合成一个分数。</td>
-                <td>Delivery Flow 改善时，三项质量护栏不能同步恶化；异常时 drill down 到测试、review、需求和发布原因。</td>
-                <td>10X 不能用质量透支换速度；质量是 productivity 的约束条件。</td>
+                <td><strong>Quality Guardrail Index</strong><br>不强行合成一个分数，分别看 Change Failure Rate、Bug Escape/Reopen Rate、MTTR 三项趋势。</td>
+                <td>Change Failure Rate = 造成 rollback、hotfix、incident 或紧急修复的变更数 / 总变更数。Bug Escape/Reopen Rate = 逃逸到后续阶段或已关闭后 reopen 的 bug 数 / 已关闭或已发布 work item。MTTR = service restored time - incident detected time。数据来自 release、incident、bug、CI/CD、test run。</td>
+                <td>按 severity、产品区域、变更类型、release 类型分层。看趋势和分布，不只看均值；P90 和高 severity 问题单独复盘。</td>
+                <td>质量护栏任一项持续恶化时，Delivery Flow 的改善不能单独作为成功。异常要 drill down 到需求清晰度、测试覆盖、review 质量、AI 产出质量和发布流程。</td>
               </tr>
               <tr>
                 <td>Team Flow Health</td>
-                <td><strong>Flow Health Score</strong><br>计算：Blocked Time 趋势 + handoff friction pulse + AI trust/satisfaction pulse；定期观察，不做个人排名。</td>
-                <td>系统数据 + pulse survey 结合；只看团队和流程。</td>
-                <td>防止 productivity 只看系统吞吐，忽略上下文切换、协作成本和团队信任。</td>
+                <td><strong>Flow Health Score</strong><br>由 blocked time ratio、handoff friction pulse、AI trust/satisfaction pulse、meeting load / focus time 共同解释，不做个人排名。</td>
+                <td>blocked time ratio = work item 处于 blocked/waiting 的时间 / delivery lead time。Handoff friction 和 AI trust 通过 pulse survey 采集。Meeting load / focus time 来自 Teams/Calendar 聚合视图。</td>
+                <td>按团队、workstream、work item 类型看趋势；只展示聚合结果。定性反馈需要映射到阻塞原因：需求、依赖、review、环境、权限、AI 上下文、验证不足。</td>
+                <td>Team Flow Health 改善必须表现为阻塞和交接摩擦下降，同时团队对 AI 输出的信任不下降。若速度变快但满意度下降、会议负担上升，需要视为不可持续。</td>
               </tr>
             </tbody>
           </table>
@@ -978,7 +1220,7 @@
 
         <div class="section-head subhead reveal" style="margin-top:46px">
           <h3>AI Level Achievement</h3>
-          <p>AI Level Achievement 记录 AI 从个人工具走向团队工作流的程度，用来解释 4 个核心指标的改善是否来自 AI 工作方式升级。</p>
+          <p>AI Level Achievement 记录 AI 从个人工具走向团队工作流的程度。它是解释性指标，不单独证明 productivity 成功，必须和 4 个核心指标联动。</p>
         </div>
 
         <div class="table-scroll reveal" style="margin-top:16px">
@@ -986,17 +1228,17 @@
             <thead>
               <tr>
                 <th>AI Level 达成情况</th>
-                <th>指标定义</th>
-                <th>怎么衡量</th>
-                <th>如何与 4 个核心指标一起看</th>
+                <th>可测量定义</th>
+                <th>采集口径</th>
+                <th>验证与联动</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>AI Level Achievement</td>
-                <td><strong>L3 Workflow Adoption</strong><br>计算：满足 role card、task contract、tool access、verification、human escalation 的 L3 工作流数量；并跟踪 Agent Task Success Rate。</td>
-                <td>优先看团队协作、PR / release、质量评估和知识沉淀等 L3 工作流；同时看 Agent Task Success Rate、Human Intervention Rate、Machine-verifiable Task Ratio。</td>
-                <td>AI Level 不单独作为 productivity 成功标准；它需要和 Outcome Velocity、Delivery Flow、Quality Stability、Team Flow Health 联动，判断 AI 对团队提效的贡献。</td>
+                <td><strong>L3 Workflow Adoption</strong><br>计算：满足 role card、task contract、tool access、verification、human escalation 五项条件的 L3 工作流数量。配套看 Agent Task Success Rate、Human Intervention Rate、Machine-verifiable Task Ratio。</td>
+                <td>每个候选 workflow 建一张 workflow card，记录触发条件、输入模板、Agent 权限、输出格式、验收方式、升级条件、日志位置。Agent 任务按 task id 记录开始、结束、结果、人工介入次数和验证证据。</td>
+                <td>AI Level 提升只有在核心指标同步改善或解释瓶颈变化时才有意义：例如 L3 PR workflow 增加后，PR Review Time 下降且 Quality Stability 不恶化；L3 会议/PMO workflow 增加后，Team Flow Health 改善。</td>
               </tr>
             </tbody>
           </table>
@@ -1157,7 +1399,7 @@
       <div class="shell">
         <div class="section-head reveal">
           <h2>Baseline <span class="wip-badge">WIP</span></h2>
-          <p>先定义“跟什么时候比”和“数据从哪里来”，再讨论 10X。Baseline 当前处于 WIP，重点是先建立稳定口径，让后续趋势可追踪。</p>
+          <p>先定义“跟什么时候比”“用哪些事件算”“数据质量是否可信”，再讨论 10X。Baseline 当前处于 WIP，重点是先建立稳定口径，让后续趋势可追踪、可复算、可解释。</p>
         </div>
 
         <div class="grid-2">
@@ -1165,70 +1407,232 @@
             <span class="tag">跟什么时候对比</span>
             <h3>建议用两层 baseline</h3>
             <ul>
-              <li>历史 baseline：试点启动前选择一段稳定历史窗口，作为当前系统状态。</li>
-              <li>滚动 baseline：试点启动后按固定口径持续统计。</li>
-              <li>对比窗口：先看方向，再看稳定趋势，最后判断是否可复制。</li>
-              <li>分层对比：feature、bug、incident、tech debt、test work 分开看。</li>
+              <li>历史 baseline：试点启动前选择一段稳定、可解释的历史窗口，按同一口径回算 P50/P75/P90 和质量护栏。</li>
+              <li>滚动 baseline：试点启动后按固定统计窗口持续更新，用来判断趋势是否稳定，而不是用单点波动做结论。</li>
+              <li>对照 baseline：同类 workstream 或未引入 L3 workflow 的任务可作为参考组，但只用于解释，不做团队排名。</li>
+              <li>分层对比：feature、bug、incident、tech debt、test work 分开看，避免不同工作类型互相稀释。</li>
             </ul>
           </article>
           <article class="panel reveal">
             <span class="tag">获取和现状</span>
             <h3>先把分散数据变成可重复口径</h3>
             <ul>
-              <li>工作模式是混合模式，必须先统一开始、完成、阻塞、返工等状态定义。</li>
+              <li>工作模式是混合模式，必须先统一开始、完成、阻塞、返工、验证、人工介入等状态定义。</li>
               <li>系统数据覆盖 ADO/Jira、Repo、CI/CD、测试管理、Incident/Monitoring、Teams/Calendar，但比较分散。</li>
-              <li>AI 使用处于 L1/L2：Copilot、通用 AI、PraestoClaw、AI review/test generation 均有使用痕迹。</li>
-              <li>当前痛点还在收集，需要用 baseline 把感受转成可讨论、可跟踪的事实。</li>
+              <li>每个核心指标需要一个 metric owner，维护字段映射、排除规则、缺失数据处理方式和 dashboard 解释。</li>
+              <li>当前痛点还在收集，需要用 baseline 把感受转成可讨论、可跟踪、可复算的事实。</li>
             </ul>
           </article>
         </div>
 
         <div class="section-head subhead reveal" style="margin-top:46px">
-          <h3>获取和现状</h3>
-          <p>Baseline 当前不追求一次完整，先建立可重复口径和最小可用 dashboard。</p>
+          <h3>Baseline 建线步骤</h3>
+          <p>Baseline 当前不追求一次完整，先建立可重复口径、事件日志和最小可用 dashboard。</p>
         </div>
 
         <div class="baseline-flow reveal">
           <article class="baseline-step">
             <b>1</b>
-            <h3>定义口径</h3>
-            <p>按 work item 类型拆分：feature、bug、incident、tech debt、test work、support work。先统一什么算开始、完成、阻塞、返工。</p>
+            <h3>定义 metric contract</h3>
+            <p>为每个指标写清 measurement unit、开始事件、结束事件、必填字段、排除规则、owner 和数据源。没有 contract 的指标不进入首页。</p>
           </article>
           <article class="baseline-step">
             <b>2</b>
-            <h3>拉取系统数据</h3>
-            <p>ADO/Jira、Repo、CI/CD、测试系统、Incident/Monitoring、Teams/Calendar。数据散不是阻碍，先建立最小可用 dashboard。</p>
+            <h3>建立事件日志</h3>
+            <p>从 ADO/Jira、Repo、CI/CD、测试、Incident、Teams/Calendar 拉取事件，统一 task id、PR id、release id、incident id 和 outcome id。</p>
           </article>
           <article class="baseline-step">
             <b>3</b>
-            <h3>补充人工调研</h3>
-            <p>用 pulse survey 和访谈补齐系统看不到的摩擦：需求不清、等待、上下文切换、工具体验、AI 信任度。</p>
+            <h3>回算历史 baseline</h3>
+            <p>按同一规则回算历史窗口，输出 P50/P75/P90、样本量、缺失率和异常样本。缺失严重的指标先标 WIP，不强行比较。</p>
           </article>
           <article class="baseline-step">
             <b>4</b>
-            <h3>固定节奏复盘</h3>
-            <p>不追求第一版完美，先让趋势可见。持续看 top bottlenecks、AI adoption friction、质量护栏是否恶化。</p>
+            <h3>上线滚动 baseline</h3>
+            <p>按固定统计窗口持续更新，并保留口径版本。每次指标变化都要能追溯到样本、分层、异常和口径变化。</p>
           </article>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>Baseline 设计</h3>
+          <p>每个核心指标都用同一套 baseline 结构：历史状态、滚动趋势、数据质量和最小可用版本。</p>
+        </div>
+
+        <div class="table-scroll reveal">
+          <table class="metric-table compact" aria-label="Societas Productivity baseline 设计">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>历史 baseline 怎么建</th>
+                <th>滚动 baseline 怎么看</th>
+                <th>数据质量校验</th>
+                <th>最小可用版本</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Outcome Velocity</td>
+                <td>回看已完成 product goal / customer problem，补齐 committed date、success metric、validated date 和验证证据；只纳入有明确 outcome 的样本。</td>
+                <td>看 Outcome Validation Lead Time 的 P50/P75，以及无 outcome metric work item 占比。趋势改善必须结合 high-value work ratio 和质量护栏一起看。</td>
+                <td>检查 outcome id 是否能关联 work item、验证证据是否存在、success metric 是否在执行前定义、取消/暂停样本是否被单独标记。</td>
+                <td>先从少数高价值 workstream 开始，建立 outcome log；没有 telemetry 的目标允许用 PM/customer validation record，但必须可追溯。</td>
+              </tr>
+              <tr>
+                <td>Delivery Flow</td>
+                <td>回算 work item 从 ready/committed 到 production-ready 的 lead time，按 feature、bug、incident、tech debt、test work 分层。</td>
+                <td>看 P50/P75/P90，并拆解 queue、dev、review、test、blocked。滚动趋势用于识别瓶颈从编码转移到 review、测试或发布。</td>
+                <td>检查 ready 状态是否被稳定使用、PR/CI/release 是否能关联 work item、blocked 状态是否有原因、异常超长样本是否被解释。</td>
+                <td>先用 ADO/Jira 状态流 + PR merge + CI pass 建最小事件链，再逐步接入 release 和测试系统。</td>
+              </tr>
+              <tr>
+                <td>Quality Stability</td>
+                <td>回算 Change Failure Rate、Bug Escape/Reopen Rate、MTTR 的历史趋势，按 severity 和产品区域分层。</td>
+                <td>Delivery Flow 变快时同步看三项质量护栏是否恶化。高 severity、P90 MTTR 和 reopen 问题单独看。</td>
+                <td>检查 incident、bug、release、rollback、hotfix 是否能互相关联；severity 是否稳定；reopen 和 escaped bug 定义是否一致。</td>
+                <td>先接入 release incident、bug reopen、CI/test pass 三类信号，形成质量护栏首页。</td>
+              </tr>
+              <tr>
+                <td>Team Flow Health</td>
+                <td>回看 blocked/waiting 状态、handoff 节点、会议负担和 pulse survey 结果，建立团队级趋势，不回溯个人表现。</td>
+                <td>看 blocked time ratio、handoff friction、AI trust/satisfaction、meeting load / focus time 的方向变化，并结合访谈解释异常。</td>
+                <td>检查 blocked reason 是否结构化、pulse survey 样本是否足够、Teams/Calendar 只使用聚合数据、定性反馈是否能映射到阻塞原因。</td>
+                <td>先建立 blocked reason taxonomy + 简短 pulse survey，再接入会议负担和 focus time 聚合视图。</td>
+              </tr>
+              <tr>
+                <td>AI Level Achievement</td>
+                <td>盘点现有 L1/L2/L3 workflow，记录每个 workflow 是否具备 role card、task contract、tool access、verification、human escalation。</td>
+                <td>看 L3 workflow count、Agent Task Success Rate、Human Intervention Rate、Machine-verifiable Task Ratio，并与 4 个核心指标变化对齐。</td>
+                <td>检查 Agent task 是否有 task id、验证证据、人工介入记录和失败原因；避免只记录“使用了 AI”，却无法证明任务完成质量。</td>
+                <td>先选择团队协作、PR / release、质量评估三类高频 workflow 建卡和日志，形成 AI Level drill-down。</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="grid-2" style="margin-top:16px">
           <article class="panel reveal">
             <h3>Baseline dashboard（WIP）</h3>
             <ul>
-              <li>核心视图：首页只放 Outcome Velocity、Delivery Flow、Quality Stability、Team Flow Health，以及 AI Level 达成情况。</li>
+              <li>核心视图：首页只放 Outcome Velocity、Delivery Flow、Quality Stability、Team Flow Health，以及 AI Level Achievement。</li>
+              <li>每个指标显示当前值、历史 baseline、滚动 baseline、样本量、缺失率和口径版本。</li>
               <li>辅助验证：Cycle Time、PR Review Time、blocked time、bug escape、test pass、agent success、human intervention 等作为 drill-down。</li>
-              <li>分层视图：feature、bug、incident、tech debt、test work 分开看。</li>
-              <li>趋势视图：历史 baseline + 滚动变化。</li>
+              <li>分层视图：feature、bug、incident、tech debt、test work、workstream、severity 分开看。</li>
             </ul>
           </article>
           <article class="panel reveal">
             <h3>统计原则</h3>
             <ul>
               <li>先看团队和流程，不做个人绩效排名。</li>
-              <li>先看趋势，不用单点数字做结论。</li>
-              <li>先做分层，不把 feature、bug、incident 混成一个平均数。</li>
+              <li>先看趋势和分布，不用单点数字或平均数做结论。</li>
+              <li>先做分层，不把 feature、bug、incident、tech debt、test work 混成一个平均数。</li>
               <li>先有护栏，再追求速度。</li>
+              <li>口径变化必须留版本，否则不能和历史 baseline 直接比较。</li>
             </ul>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="gaps">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Gaps</h2>
+          <p>Gaps 用来承接 baseline 和 10X Plan：先把团队当前痛点转成可验证的缺口，再决定哪些 workflow、工具和数据口径需要优先补齐。</p>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>Dev Gaps</h3>
+          <p>Dev Gaps 先聚焦开发链路中已经暴露的等待、上下文、验证和 Agent 协作问题。每一项都需要回到 Delivery Flow、Quality Stability、Team Flow Health 或 AI Level Achievement 来验证。</p>
+        </div>
+
+        <div class="table-scroll gaps-scroll reveal">
+          <table class="metric-table compact gaps-table" aria-label="Dev Gaps">
+            <thead>
+              <tr>
+                <th>Dev Gap</th>
+                <th>痛点信号</th>
+                <th>影响的核心指标</th>
+                <th>需要补的 baseline 信号</th>
+                <th>可能的 10X 方向</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>项目知识库不稳定</td>
+                <td>Agent 可以从 repo / 文档临时总结，但每次、每个 session、每个 Agent 都重新总结，成本高；沉淀成知识库后又担心准确性、时效性和确定性。</td>
+                <td>Delivery Flow、Team Flow Health、AI Level Achievement</td>
+                <td>知识复用率、上下文重建时间、cross-session context miss、知识库 freshness、Agent 引用来源覆盖率。</td>
+                <td>建立 enterprise / project knowledge base，要求引用来源、更新时间、适用范围和置信度；关键结论进入 team memory。</td>
+              </tr>
+              <tr>
+                <td>Repo / 分支上下文容易错</td>
+                <td>代码库分支太多，Agent 不容易判断实际生效分支、目标分支和当前 release 分支，容易基于错误上下文给出结论。</td>
+                <td>Delivery Flow、Quality Stability、AI Level Achievement</td>
+                <td>branch mismatch count、错误 repo / branch 引用次数、Agent context correction 次数、PR target branch exception。</td>
+                <td>为任务提供 repo / branch contract；Agent 执行前先校验当前分支、目标分支、release train 和受影响模块。</td>
+              </tr>
+              <tr>
+                <td>不敢交给 Agent 做生产操作</td>
+                <td>Agent 有时理解错意图，有时意图正确但操作错误；涉及 prod、不可逆操作或高风险流程时，人需要反复验证。</td>
+                <td>Quality Stability、Team Flow Health、AI Level Achievement</td>
+                <td>high-risk task intervention rate、human approval count、rollback / irreversible risk tag、Agent action audit pass rate。</td>
+                <td>高风险 workflow 默认 human-in-the-loop；把 prod 操作拆成 plan、dry-run、approval、execute、verify 五段。</td>
+              </tr>
+              <tr>
+                <td>验证 AI 产出耗时长</td>
+                <td>等待 coding agent 生成之外，还要花大量时间阅读结论、验证成果、循环调整；生产级项目很难直接放飞。</td>
+                <td>Delivery Flow、Quality Stability、Team Flow Health</td>
+                <td>verification time、Agent rework loop count、human review time、claim-to-evidence ratio、verification evidence coverage。</td>
+                <td>要求 Agent 输出附带测试、证据、风险边界和复现命令；用 verifier workflow 降低人工验证成本。</td>
+              </tr>
+              <tr>
+                <td>从零开始的方向判断困难</td>
+                <td>新 feature / 项目前期知识调研、架构设计和 spec review 很难判断 AI 信息是否正确，代码可能没问题但方向一开始就偏了。</td>
+                <td>Outcome Velocity、Delivery Flow、Quality Stability</td>
+                <td>problem framing rework、architecture review time、spec correction count、wrong-direction rework、knowledge confidence rating。</td>
+                <td>在执行前增加 Problem / Mandate Framed 和 Outcome Contract 质量门；让 Agent 输出 assumptions、alternatives 和 open questions。</td>
+              </tr>
+              <tr>
+                <td>Agent 自测和产品质量不足</td>
+                <td>为求速度让 Agent 根据一句话需求做功能，后续反复沟通和测试细节；Agent 甚至不能主动发现 UI 元素溢出等基础问题。</td>
+                <td>Quality Stability、Delivery Flow、AI Level Achievement</td>
+                <td>Machine-verifiable Task Ratio、self-test pass rate、UI regression catch rate、manual test blocker、bug escape / reopen rate。</td>
+                <td>为 Agent 提供清晰执行路径、UI 规范、模拟运行环境、用户操作脚本和可自动判定的验收标准。</td>
+              </tr>
+              <tr>
+                <td>外部系统操作能力弱</td>
+                <td>第三方平台注册、后台操作、找文档、跨软件倒腾数据仍需要人手动处理，例如 Linux 上使用 hermes / openclaw 或微信、Excel、内部 OA 等。</td>
+                <td>Delivery Flow、Team Flow Health、AI Level Achievement</td>
+                <td>external tool handoff count、manual operation time、tool access gap、Agent blocked by permission / UI / doc。</td>
+                <td>梳理 tool access 和 automation boundary；优先让 Agent 处理可审计、可回滚、可验证的外部系统步骤。</td>
+              </tr>
+              <tr>
+                <td>Workflow 难以沉淀</td>
+                <td>工作内容变动快，难形成稳定 workflow；AI 在单点任务上有效，比如写代码、review PR、fix bug，但端到端流程还难闭环。</td>
+                <td>Delivery Flow、AI Level Achievement</td>
+                <td>L3 workflow count、workflow reuse rate、single-task vs end-to-end ratio、Agent Task Success Rate。</td>
+                <td>先沉淀高频、边界清楚、验证充分的 micro-workflow，再组合成团队级 L3 workflow。</td>
+              </tr>
+              <tr>
+                <td>创新和 debug 假设质量不足</td>
+                <td>Agent 能 review 和头脑风暴，但很少主动提出新角度；解 bug 和创新需要大胆假设、小心求证，而当前常常假设平庸、求证不足。</td>
+                <td>Outcome Velocity、Team Flow Health</td>
+                <td>hypothesis diversity、experiment run count、root-cause validation rate、novel option accepted rate。</td>
+                <td>把 brainstorm 拆成 hypothesis generation、evidence search、experiment plan、verification 四步，强制 Agent 先求证再结论。</td>
+              </tr>
+              <tr>
+                <td>反馈闭环容易跑偏</td>
+                <td>side project 可依赖周级数据反馈后人工分析改进；让 AI 自进化时容易朝过拟合方向演进。</td>
+                <td>Outcome Velocity、Quality Stability</td>
+                <td>feedback loop cycle time、overfit signal、metric guardrail breach、human correction count。</td>
+                <td>把自动优化限制在有 guardrail 的实验框架内，保留人对目标函数、样本和停止条件的控制。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-head subhead reveal" style="margin-top:46px">
+          <h3>PM Gaps</h3>
+          <p></p>
         </div>
       </div>
     </section>
